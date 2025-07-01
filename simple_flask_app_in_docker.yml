@@ -1,0 +1,41 @@
+- name: Deploy Flask app in Docker
+  hosts: all
+  become: yes
+
+  vars:
+    repo_url: https://github.com/lvthillo/python-flask-docker.git
+    app_dir: /opt/flask-app
+    image_name: flask-docker-example
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - git
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Clone Flask app repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+
+    - name: Build Docker image
+      command: docker build -t {{ image_name }} .
+      args:
+        chdir: "{{ app_dir }}"
+
+    - name: Run container
+      docker_container:
+        name: flask_app
+        image: "{{ image_name }}"
+        state: started
+        ports:
+          - "8080:8080"
+        restart_policy: always

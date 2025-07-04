@@ -2,17 +2,17 @@ import os
 
 def create_keypair(conn, key_name):
     keypair = conn.compute.find_keypair(key_name)
-    path = f"{key_name}.pem"
+    path = f"../credentials/{key_name}.pem"
 
     if not keypair:
         print("Create keypair:")
 
         keypair = conn.compute.create_keypair(name=key_name)
 
-        with open(f"{key_name}.pem", 'w') as f:
+        with open(f"../credentials/{key_name}.pem", 'w') as f:
             f.write(str(keypair.private_key))
 
-        os.chmod(f"{key_name}.pem", 0o400)
+        os.chmod(f"../credentials/{key_name}.pem", 0o400)
 
         print(f"Created keypair {key_name}")
 

@@ -162,4 +162,7 @@ cython_debug/
 *.pem
 
 clouds.yaml
-
+/credentials/*
+.*
+*.tfstate
+*.backup

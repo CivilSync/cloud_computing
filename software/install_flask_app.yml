@@ -3,9 +3,10 @@
   become: yes
 
   vars:
-    flask_repo: "https://github.com/petersimeth/basic-flask-template.git"
+    flask_repo: "https://github.com/CivilSync/flask_app.git"
     flask_app_dir: "app"  # oder "~" geht auch
     flask_app_file: "app.py"         # oder main.py – je nachdem
+    flask_version: "v1.0"
 
   tasks:
     - name: Update apt cache
@@ -24,7 +25,7 @@
       git:
         repo: "{{ flask_repo }}"
         dest: "{{ flask_app_dir }}"
-        version: HEAD
+        version: "{{ flask_version }}"
         force: yes
         update: yes
 

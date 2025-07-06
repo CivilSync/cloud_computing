@@ -1,7 +1,7 @@
 config:
   pulumi-k8s-cluster:image_name: "Ubuntu 24.04 2025-01"
   pulumi-k8s-cluster:flavor_name: "mb1.small"
-  pulumi-k8s-cluster:worker_count: 1
+  pulumi-k8s-cluster:worker_count: "1"
   pulumi-k8s-cluster:network_name: "provider_912"
   pulumi-k8s-cluster:keypair_name: "d-pulumi-k8s-cluster-keypair"
   pulumi-k8s-cluster:security_group: "default"

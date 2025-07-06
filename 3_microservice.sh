@@ -19,3 +19,5 @@ ansible-playbook -i credentials/inventory.ini ansible/k3s_cluster/install_k3s_cl
 
 pulumi destroy
 pulumi stack rm dev
+
+export KUBECONFIG=credentials/k3s.yaml

@@ -29,3 +29,17 @@
     name: "k3s_token_host"
     k3s_token: "{{ k3s_token }}"
     k3s_server_url: "{{ k3s_server_url }}"
+
+- name: Copy k3s.yaml from VM
+  ansible.builtin.fetch:
+    src: "/etc/rancher/k3s/k3s.yaml"
+    dest: "../../credentials/"
+    flat: yes
+
+- name: Replace server IP in kubeconfig
+  ansible.builtin.replace:
+    path: "../../credentials/k3s.yaml"
+    regexp: "127.0.0.1"
+    replace: "{{ ansible_default_ipv4.address }}"
+  delegate_to: localhost
+  become: false

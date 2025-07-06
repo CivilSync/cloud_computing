@@ -1,0 +1,31 @@
+- name: Install K3s server
+  shell: |
+    curl -sfL https://get.k3s.io | sh -
+  args:
+    creates: /usr/local/bin/k3s
+
+- name: Wait for K3s to be ready
+  shell: kubectl get nodes
+  register: result
+  retries: 10
+  delay: 5
+  until: result.rc == 0
+
+- name: Get node token
+  slurp:
+    src: /var/lib/rancher/k3s/server/node-token
+  register: k3s_token_raw
+
+- name: Set fact for token
+  set_fact:
+    k3s_token: "{{ k3s_token_raw['content'] | b64decode | trim }}"
+
+- name: Set fact for server IP
+  set_fact:
+    k3s_server_url: "https://{{ ansible_host }}:6443"
+
+- name: Save token for agents
+  add_host:
+    name: "k3s_token_host"
+    k3s_token: "{{ k3s_token }}"
+    k3s_server_url: "{{ k3s_server_url }}"

@@ -2,10 +2,10 @@
   hosts: all
   become: yes
 
-  vars:
-    repo_url: https://github.com/lvthillo/python-flask-docker.git
-    app_dir: /opt/flask-app
-    image_name: flask-docker-example
+  # vars:
+  #   repo_url: https://github.com/lvthillo/python-flask-docker.git
+  #   app_dir: /opt/flask-app
+  #   image_name: flask-docker-example
 
   tasks:
     - name: Install required packages
@@ -37,13 +37,13 @@
       args:
         creates: /usr/local/nerdctl
 
-    - name: Clone Flask app repository
-      git:
-        repo: "{{ repo_url }}"
-        dest: "{{ app_dir }}"
+    # - name: Clone Flask app repository
+    #   git:
+    #     repo: "{{ repo_url }}"
+    #     dest: "{{ app_dir }}"
     
-    - name: Build container image with nerdctl
-      shell: |
-        nerdctl --address /run/k3s/containerd/containerd.sock -n k8s.io build -t {{ image_name }} {{ app_dir }}
-      args:
-        chdir: "{{ app_dir }}"
+    # - name: Build container image with nerdctl
+    #   shell: |
+    #     nerdctl --address /run/k3s/containerd/containerd.sock -n k8s.io build -t {{ image_name }} {{ app_dir }}
+    #   args:
+    #     chdir: "{{ app_dir }}"

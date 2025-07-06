@@ -1,3 +1,8 @@
+#!/bin/bash
+trap 'read -p "run: $BASH_COMMAND"' DEBUG
+
+cd infrastructure
+
 #create a VM
 
 terraform init
